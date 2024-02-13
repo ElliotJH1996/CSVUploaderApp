@@ -1,0 +1,14 @@
+﻿CREATE TABLE [dbo].[Books]
+(
+	[Id] INT NOT NULL IDENTITY PRIMARY KEY, 
+    [Title] NVARCHAR(100) NOT NULL, 
+    [ISBN-10] NVARCHAR(16) NULL, 
+    [Pages] INT NULL, 
+    [Type] INT NULL FOREIGN KEY REFERENCES [Type](TypeID), 
+    [Genre] INT NULL FOREIGN KEY REFERENCES Genre(GenreID), 
+    [Authors] NVARCHAR(200) NOT NULL, 
+    [Price] FLOAT NOT NULL, 
+    [Publish Date] DATETIME2 NULL
+    
+
+)

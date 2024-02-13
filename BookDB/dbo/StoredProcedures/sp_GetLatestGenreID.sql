@@ -1,0 +1,9 @@
+﻿CREATE PROCEDURE [dbo].[sp_GetLatestGenreID]
+
+
+AS
+
+BEGIN
+SELECT TOP 1 GenreID FROM Genre ORDER BY 1 DESC
+END
+

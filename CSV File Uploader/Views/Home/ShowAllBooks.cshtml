@@ -1,0 +1,102 @@
+﻿@{
+    ViewData["Title"] = "CSV File Uploader";
+    @using CSV_File_Uploader.Models;
+}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <div class="container-fluid">
+        <button class="navbar-toggler"
+                type="button"
+                data-mdb-toggle="collapse"
+                data-mdb-target="#navbarRightAlignExample"
+                aria-controls="navbarRightAlignExample"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarRightAlignExample">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index")">Upload Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Update book</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Delete book</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="@Url.Action("ShowAllBooks")">Show all books</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="text-center">
+    <h1 class="display-4">CSV File Uploader</h1>
+</div>
+<table class="table table-dark table-striped" id="bookTable">
+    <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">ISBN-10</th>
+            <th scope="col">Pages</th>
+            <th scope="col">Type</th>
+            <th scope="col">Genre</th>
+            <th scope="col">Author</th>
+            <th scope="col">Price</th>
+            <th scope="col">Publish Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr id="dataRow">
+            <th scope="row"></th>
+
+           
+        </tr>
+    </tbody>
+
+</table>
+<button type="submit" class="btn btn-dark" onclick="GetAllBooks(event)">Refresh</button>
+<script>
+
+    function GetAllBooks(e) {
+        e.preventDefault();
+       
+        let req = new XMLHttpRequest();
+        req.open("GET", 'https://localhost:5002/api/Book/');
+        req.send();
+
+        req.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+
+                var _dt = JSON.parse(req.responseText)
+                console.log(_dt);
+
+            }
+            if (this.readyState == 3 && this.status == 400) {
+                document.getElementById("uploadResultAlert").innerHTML +=
+                    '<div class=\"alert alert-danger\" role=\"alert\"><h4 class=\"alert-danger\">Error!</h4><p class=\"alert-danger\">' + req.responseText + '</p></div>';
+
+            }
+        }
+
+    }
+
+</script>
+<script>
+    function createTable(json){
+
+        var table = document.getElementById("bookTable");
+       
+
+           
+            }
+        }
+    }
+
+
+</script>

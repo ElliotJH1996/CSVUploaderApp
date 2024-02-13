@@ -1,0 +1,9 @@
+﻿CREATE PROCEDURE [dbo].[sp_GetLatestTypeID]
+
+
+AS
+
+BEGIN
+SELECT TOP 1 TypeID FROM [Type] ORDER BY 1 DESC
+END
+

@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "CSV File Uploader";  
+    @using CSV_File_Uploader.Models;
+}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+   
+    <div class="container-fluid">   
+        <button class="navbar-toggler"
+                type="button">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarRightAlignExample">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="@Url.Action("Index")">Upload Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Update book</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Delete book</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("ShowAllBooks")">Show all books</a>
+                </li>
+               
+            </ul>
+        </div>
+    </div>  
+</nav>
+<div class="text-center">
+    <h1 class="display-4">CSV File Uploader</h1>
+    <form class="d-flex">
+        <div class="form-group col-md-10">
+            <input type="file" accept=".csv" class="form-control-file" id="csv">
+        </div>
+        <button type="submit" class="btn btn-dark" onclick="UploadCSV(event)">Submit</button>
+    </form> 
+</div>
+<div class=" col-md-6 flex-md-wrap" id="uploadResultAlert">
+</div>
+<script>
+   
+    function UploadCSV(e)
+    {
+     e.preventDefault();
+    let csv = document.getElementById("csv").files[0]; 
+    let req = new XMLHttpRequest();
+    let formData = new FormData();
+    formData.append("csv", csv);
+
+        req.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("uploadResultAlert").innerHTML +=
+                    '<div class=\"alert alert-success\" role=\"alert\"><h4 class=\"alert-success\">Success!</h4><p class=\"alert-success\">'+req.responseText+'</p></div>';
+            
+            }
+            if (this.readyState == 3 && this.status == 400) {
+                document.getElementById("uploadResultAlert").innerHTML +=
+                    '<div class=\"alert alert-danger\" role=\"alert\"><h4 class=\"alert-danger\">Error!</h4><p class=\"alert-danger\">' + req.responseText + '</p></div>';
+
+            }
+        }
+        req.open("POST", 'https://localhost:5002/api/Book/');
+        req.send(formData);
+    
+    }
+
+    
+</script>
