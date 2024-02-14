@@ -3,17 +3,10 @@ using Application.Core.BookServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace BookAPI.Controllers
@@ -32,10 +25,10 @@ namespace BookAPI.Controllers
             _log = log;
         }
 
-        
-       
+
+
         [HttpPost]
-        public async Task<IActionResult>Upload([FromForm]IFormFile csv)
+        public IActionResult Upload([FromForm] IFormFile csv)
         {
             try
             {
@@ -48,8 +41,8 @@ namespace BookAPI.Controllers
                 var addBooks = _br.BulkBookInsert(books);
 
                 _log.LogInformation(+addBooks + " Books have been added to the DB");
-                return Ok(+addBooks+" Books have been successfully uploaded");
-               
+                return Ok(+addBooks + " Books have been successfully uploaded");
+
 
             }
             catch (Exception e)
@@ -59,11 +52,11 @@ namespace BookAPI.Controllers
                 return BadRequest("Error: " + e);
             }
 
-            
+
         }
 
         [HttpGet]
-        public async Task<IActionResult> ShowAllBooks()
+        public IActionResult ShowAllBooks()
         {
             try
             {
@@ -75,9 +68,9 @@ namespace BookAPI.Controllers
             {
                 _log.LogError(e, e.Message);
                 return BadRequest("Error: " + e);
-                
+
             }
         }
-       
+
     }
 }

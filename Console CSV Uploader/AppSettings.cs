@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Console_CSV_Uploader
+﻿namespace Console_CSV_Uploader
 {
     public class AppSettings
     {
@@ -13,7 +7,7 @@ namespace Console_CSV_Uploader
         {
             
             string folderName = "CSV Uploader Files";
-            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), folderName);;
+            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), folderName);
             
             if (!Directory.Exists(filePath))
             {

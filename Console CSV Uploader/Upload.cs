@@ -1,18 +1,7 @@
-﻿using System;
-using System.Drawing;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Reflection.Metadata;
-using Console_CSV_Uploader;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
-using Application.Core;
 using Application.Core.BookServices;
 using Application.Core.Repositories;
-using Microsoft.Extensions.Logging;
-using System.Data;
 
 namespace Console_CSV_Uploader
 {
@@ -44,7 +33,7 @@ namespace Console_CSV_Uploader
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                Console.WriteLine(e);
                 throw new Exception(e.Message);
             }
 

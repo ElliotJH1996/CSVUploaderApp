@@ -1,10 +1,6 @@
 ﻿using Dapper;
-using System;
 using System.Data;
-using Serilog;
 using Microsoft.Extensions.Logging;
-using System.Data.Common;
-using System.Reflection;
 
 namespace Application.Core.Repositories
 {
@@ -103,9 +99,9 @@ namespace Application.Core.Repositories
         public int InsertType(int refID, string type)
         {
             int id = 0;
-
             try
             {
+             
                 var storedProcedureName = "sp_InsertType";
 
 

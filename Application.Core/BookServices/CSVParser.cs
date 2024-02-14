@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Data;
 using System.Text.RegularExpressions;
-
 namespace Application.Core.BookServices
 {
     public class CSVParser
