@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using Newtonsoft.Json;
+using Application.Core.Models;
 
 namespace BookAPI.Controllers
 {
@@ -25,8 +26,6 @@ namespace BookAPI.Controllers
             _log = log;
         }
 
-
-
         [HttpPost]
         public IActionResult Upload([FromForm] IFormFile csv)
         {
@@ -36,7 +35,7 @@ namespace BookAPI.Controllers
                 {
                     return BadRequest("This uploader uses .CSV files only, please try again!");
                 }
-                List<Application.Core.Models.Book> books = CSVParser.FormatCSVtoTable(csv);
+                List<Book> books = CSVParser.FormatCSVtoTable(csv);
 
                 var addBooks = _br.BulkBookInsert(books);
 
@@ -49,7 +48,7 @@ namespace BookAPI.Controllers
             {
 
                 _log.LogError(e, e.Message);
-                return BadRequest("Error: " + e);
+                return BadRequest("Error: " + e.Message);
             }
 
 
@@ -67,7 +66,7 @@ namespace BookAPI.Controllers
             catch (Exception e)
             {
                 _log.LogError(e, e.Message);
-                return BadRequest("Error: " + e);
+                return BadRequest("Error: " + e.Message);
 
             }
         }

@@ -1,4 +1,5 @@
 ﻿using CSV_File_Uploader.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -14,8 +15,8 @@ namespace CSV_File_Uploader.Controllers
         {
             _logger = logger;
         }
-
-        public IActionResult Index()
+		
+		public IActionResult Index()
         {
             
             return View();

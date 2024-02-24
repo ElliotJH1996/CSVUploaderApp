@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using System.Data;
 using Microsoft.Extensions.Logging;
-
+using Application.Core.Models;
 namespace Application.Core.Repositories
 {
     public class BookRepository : IBookRepository
@@ -14,66 +14,53 @@ namespace Application.Core.Repositories
             _log = log;
         }
 
-        public int InsertBook(Models.Book book)
+        public int InsertBook(Book book)
         {
-            int recCount;
-            try
-            {
-                if (book.Pages.Equals("null"))
-                {
-                    book.Pages = null;
+			int recCount;
+			try
+			{
+				int typeId = GetTypeID(book.Type.ToLower());
+				if (typeId == 0)
+				{
+					int newTypeID = GetLatestTypeID() + 1;
+					var insertType = InsertType(newTypeID, book.Type);
+                    book.TypeID = GetTypeID(book.Type.ToLower());
                 }
+				else
+				{
+					int refID = GetLatestTypeID();
+                    book.TypeID = refID;
+                }
+              
+                int genreId = GetGenreID(book.Genre.ToLower());
+				if (genreId == 0)
+				{
+					int newGenreID = GetLatestGenreID() + 1;
+					if (book.Genre != "")
+					{
+						var insertGenre = InsertGenre(newGenreID, book.Genre);
+					}
+				}
+				if (book.Genre != "")
+				{
+					book.GenreID = GetGenreID(book.Genre);
+				}
+				else
+				{
+					book.GenreID = -1;
+				}
+				var storedProcedureName = "sp_InsertBook";
+				var result = _db.Execute(storedProcedureName, book, commandType: CommandType.StoredProcedure);
+				recCount = result;
+			}
+			catch (Exception e)
+			{
+				_log.LogError(e.Message);
+				throw;
+			}
 
-                if (book.Genre.Equals("null"))
-                {
-                    book.Genre = null;
-                }
-
-                if (book.Type.Equals("null"))
-                {
-                    book.Type = null;
-                }
-
-                int typeId = GetTypeID(book.Type);
-                if (typeId == 0)
-                {
-                    int newTypeID = GetLatestTypeID() + 1;
-                    var insertType = InsertType(newTypeID, book.Type);
-                }
-                else
-                {
-                    int refID = GetLatestTypeID();
-                }
-                int genreId = GetGenreID(book.Genre);
-                if (genreId == 0)
-                {
-                    int newGenreID = GetLatestGenreID() + 1;
-                    if (book.Genre != null)
-                    {
-                        var insertGenre = InsertGenre(newGenreID, book.Genre);
-                    }
-                }
-                if (book.Genre != null)
-                {
-                    book.GenreID = GetGenreID(book.Genre);
-                }
-                else
-                {
-                    book.GenreID = -1;
-                }
-                book.TypeID = GetTypeID(book.Type);
-                var storedProcedureName = "sp_InsertBook";
-                var result = _db.Execute(storedProcedureName, book, commandType: CommandType.StoredProcedure);
-                recCount = result;
-            }
-            catch (Exception e)
-            {
-                _log.LogError(e.Message);
-                throw;
-            }
-
-            return 1;
-        }
+			return 1;
+		}
 
         public int GetTypeID(string type)
         {

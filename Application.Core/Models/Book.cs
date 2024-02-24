@@ -8,17 +8,17 @@
 
         public string Pages { get; set; }
 
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
-        public int TypeID { get; set; }
+        public int? TypeID { get; set; }
 
 
         public string Genre { get; set; }
 
-        public int GenreID { get; set; }
+        public int? GenreID { get; set; }
 
         public string Authors { get; set; }
-
+         
         public string Price { get; set; }  
 
         public string PublishDate { get; set; }

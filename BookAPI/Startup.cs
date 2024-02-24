@@ -8,6 +8,8 @@ using Microsoft.OpenApi.Models;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Serilog;
+using CSV_File_Uploader;
+using Application.Core.Repositories;
 
 
 namespace BookAPI
@@ -21,7 +23,6 @@ namespace BookAPI
 
         public IConfiguration Configuration { get; }
         string allowCors = "Access-Control-Allow-Origin";
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddLogging(e =>
@@ -30,14 +31,13 @@ namespace BookAPI
                 e.AddSerilog(dispose: true);
             });
             services.AddScoped<IDbConnection>(e => new SqlConnection(Configuration.GetConnectionString("Default")));
-            services.AddTransient<Application.Core.Repositories.IBookRepository, Application.Core.Repositories.BookRepository>();
-            services.AddCors(options =>
+            services.AddTransient<IBookRepository, BookRepository>();
+			services.AddCors(options =>
             {
                 options.AddPolicy(name: allowCors,
                                   policy =>
                                   {
-                                      policy.WithOrigins("https://localhost:5002/api/Book",
-                                                         "https://localhost:5001")
+                                      policy.WithOrigins("https://localhost:44396")
                                                         .AllowAnyHeader()
                                                         .AllowAnyMethod();
                                   });
@@ -50,7 +50,6 @@ namespace BookAPI
 
                }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             Log.Logger = new LoggerConfiguration()
@@ -62,22 +61,26 @@ namespace BookAPI
 
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+				app.UseMiddleware<IdentityAuthMW>();
+				app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BookAPI v1"));
             } 
             app.UseHttpsRedirection();
 
+            app.UseMiddleware<IdentityAuthMW>();
+
             app.UseCors(allowCors);
 
             app.UseRouting();
 
-            app.UseAuthorization();
+			app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
         }
-    }
+		
+	}
 }
