@@ -18,7 +18,6 @@ namespace BookAPI.Controllers
             _log = log;
             _bs = bs;
         }
-
         [HttpPost]
         public IActionResult Upload([FromForm] IFormFile csv)
         {
@@ -28,21 +27,15 @@ namespace BookAPI.Controllers
                 {
                     return BadRequest("This uploader uses .CSV files only, please try again!");
                 }
-
                 var addBooks = _bs.InsertParsedBook(csv);
-                _log.LogInformation(+addBooks + " Books have been added to the DB");
+                _log.LogInformation(addBooks + " Books have been added to the DB");
                 return Ok(+addBooks + " Books have been successfully uploaded");
-
-
             }
             catch (Exception e)
             {
-
-                _log.LogError(e, e.Message);
+                _log.LogError(e, "Upload");
                 return BadRequest("Error: " + e.Message);
             }
-
-
         }
 
         [HttpGet]
@@ -55,7 +48,7 @@ namespace BookAPI.Controllers
             }
             catch (Exception e)
             {
-                _log.LogError(e, e.Message);
+                _log.LogError(e, "ShowAllBooks");
                 return BadRequest("Error: " + e.Message);
 
             }

@@ -26,7 +26,7 @@ namespace Application.Core.BookServices
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message);
+                _logger.LogError(ex, "InsertParsedBook");
                 throw;
             }
 
@@ -43,8 +43,8 @@ namespace Application.Core.BookServices
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex,ex.Message);
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, "GetAllBooks");
+                throw;
             }
           
         }
