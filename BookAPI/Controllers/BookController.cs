@@ -1,14 +1,9 @@
-﻿using Application.Core.Repositories;
-using Application.Core.BookServices;
+﻿using Application.Core.BookServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Data;
 using System.IO;
-using Newtonsoft.Json;
-using Application.Core.Models;
 
 namespace BookAPI.Controllers
 {
@@ -16,14 +11,12 @@ namespace BookAPI.Controllers
     [ApiController]
     public class BookController : ControllerBase
     {
-        private readonly IDbConnection _db;
-        private readonly IBookRepository _br;
         private readonly ILogger<BookController> _log;
-        public BookController(IDbConnection db, IBookRepository br, ILogger<BookController> log)
+        private readonly BServices _bs;
+        public BookController(ILogger<BookController> log, BServices bs)
         {
-            _db = db;
-            _br = br;
             _log = log;
+            _bs = bs;
         }
 
         [HttpPost]
@@ -35,10 +28,8 @@ namespace BookAPI.Controllers
                 {
                     return BadRequest("This uploader uses .CSV files only, please try again!");
                 }
-                List<Book> books = CSVParser.FormatCSVtoTable(csv);
 
-                var addBooks = _br.BulkBookInsert(books);
-
+                var addBooks = _bs.InsertParsedBook(csv);
                 _log.LogInformation(+addBooks + " Books have been added to the DB");
                 return Ok(+addBooks + " Books have been successfully uploaded");
 
@@ -59,8 +50,7 @@ namespace BookAPI.Controllers
         {
             try
             {
-                var ShowAllBooks = _br.ShowAllBooks();
-                string json = JsonConvert.SerializeObject(ShowAllBooks);
+                string json = _bs.GetAllBooks();
                 return Ok(json);
             }
             catch (Exception e)

@@ -8,7 +8,7 @@
 
         public string Pages { get; set; }
 
-        public string? Type { get; set; }
+        public string Type { get; set; }
 
         public int? TypeID { get; set; }
 

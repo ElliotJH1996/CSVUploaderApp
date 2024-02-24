@@ -10,6 +10,7 @@ using Microsoft.Data.SqlClient;
 using Serilog;
 using CSV_File_Uploader;
 using Application.Core.Repositories;
+using Application.Core.BookServices;
 
 
 namespace BookAPI
@@ -32,6 +33,7 @@ namespace BookAPI
             });
             services.AddScoped<IDbConnection>(e => new SqlConnection(Configuration.GetConnectionString("Default")));
             services.AddTransient<IBookRepository, BookRepository>();
+            services.AddScoped<BServices>();
 			services.AddCors(options =>
             {
                 options.AddPolicy(name: allowCors,
