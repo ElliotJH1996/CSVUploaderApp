@@ -55,7 +55,7 @@ namespace Application.Core.Repositories
 			}
 			catch (Exception e)
 			{
-				_log.LogError(e.Message);
+				_log.LogError(e,"InsertBook");
 				throw;
 			}
 
@@ -75,7 +75,7 @@ namespace Application.Core.Repositories
             }
             catch (Exception e)
             {
-                _log.LogError(e.Message);
+                _log.LogError(e,"GetTypeID");
                 throw;
             }
 
@@ -99,7 +99,7 @@ namespace Application.Core.Repositories
             }
             catch (Exception e)
             {
-                _log.LogError(e.Message);
+                _log.LogError(e, "InsertType");
                 throw;
             }
 
@@ -120,7 +120,7 @@ namespace Application.Core.Repositories
             }
             catch (Exception e)
             {
-                _log.LogError(e.Message);
+                _log.LogError(e, "GetGenreID");
                 throw;
             }
 
@@ -140,7 +140,7 @@ namespace Application.Core.Repositories
             }
             catch (Exception e)
             {
-                _log.LogError(e.Message);
+                _log.LogError(e, "GetLatestTypeID");
                 throw;
             }
 
@@ -160,7 +160,7 @@ namespace Application.Core.Repositories
             }
             catch (Exception e)
             {
-                _log.LogError(e.Message);
+                _log.LogError(e, "InsertGenre");
                 throw;
             }
 
@@ -181,16 +181,16 @@ namespace Application.Core.Repositories
             }
             catch (Exception e)
             {
-                _log.LogError(e.Message);
+                _log.LogError(e, "GetLatestGenreID");
                 throw;
             }
 
         }
 
-        public int BulkBookInsert(List<Models.Book> books)
+        public int BulkBookInsert(List<Book> books)
         {
             int recCount = 0;
-            foreach (Models.Book book in books)
+            foreach (Book book in books)
             {
                 try
                 {
@@ -200,7 +200,7 @@ namespace Application.Core.Repositories
                 }
                 catch (Exception e)
                 {
-                    _log.LogError(e.Message);
+                    _log.LogError(e, "BulkBookInsert");
                     throw;
 
                 }
@@ -209,85 +209,33 @@ namespace Application.Core.Repositories
             return recCount;
         }
 
-        public DataTable ShowAllBooks()
+        public ICollection<Book> ShowAllBooks()
         {
             try
             {
-                DataTable r = new DataTable();
-                r.Columns.Add("Id");
-                r.Columns.Add("Title");
-                r.Columns.Add("ISBN-10");
-                r.Columns.Add("Pages");
-                r.Columns.Add("Type");
-                r.Columns.Add("Genre");
-                r.Columns.Add("Authors");
-                r.Columns.Add("Price");
-                r.Columns.Add("Publish Date");
-
+                ICollection<Book> books = new List<Book>();
                 var storedProcedureName = "sp_ShowAllBooks";
-
-                var result = _db.Query(storedProcedureName, commandType: CommandType.StoredProcedure);
-                List<string> items = new List<string>();
+                var result = _db.Query<Book>(storedProcedureName, commandType: CommandType.StoredProcedure);
+               
                 foreach (var book in result)
                 {
-
-                    var value = book as IDictionary<string, object>;
-                    var pages = "";
-                    var type = "";
-                    var genre = "";
-                    var id = value["Id"].ToString();
-                    var title = value["Title"].ToString();
-                    var isbn10 = value["ISBN-10"].ToString();
-                    if (value["Pages"] == null)
+                    books.Add(new Book
                     {
-                        pages = "NULL";
-                    }
-                    else
-                    {
-                        pages = value["Pages"].ToString();
-                    }
-                    if (value["Type"] == null)
-                    {
-                        type = "NULL";
-                    }
-                    else
-                    {
-                        type = value["Type"].ToString();
-                    }
-                    if (value["Genre"] == null)
-                    {
-                        genre = "NULL";
-                    }
-                    else
-                    {
-                        genre = value["Genre"].ToString();
-                    }
-                    var authors = value["Authors"].ToString();
-                    var price = value["Price"].ToString();
-                    var publishDate = Convert.ToDateTime(value["Publish Date"]).ToString("dd-MMM-yy");
-
-                    items.Add(id);
-                    items.Add(title);
-                    items.Add(isbn10);
-                    items.Add(pages);
-                    items.Add(type);
-                    items.Add(genre);
-                    items.Add(authors);
-                    items.Add(price);
-                    items.Add(publishDate);
-
-                    int count = items.Count();
-                    DataRow row = r.NewRow();
-                    row.ItemArray = items.Skip(count - 9).Take(9).ToArray();
-                    r.Rows.Add(row);
-
-
+                        Title = book.Title,
+                        ISBN10 = book.ISBN10,
+                        Pages = book.Pages,
+                        Type = book.Type,
+                        Genre = book.Genre,
+                        Authors = book.Authors,
+                        Price = book.Price,
+                        PublishDate = book.PublishDate,
+                    });
                 }
-                return r;
+                return books;
             }
             catch (Exception e)
             {
-                _log.LogError(e.Message);
+                _log.LogError(e,"ShowAllBooks");
                 throw;
             }
 

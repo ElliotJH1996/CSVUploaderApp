@@ -3,5 +3,5 @@
 AS
 
 BEGIN
-SELECT * FROM Books
+SELECT * FROM Books 
 END

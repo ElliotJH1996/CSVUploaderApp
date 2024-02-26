@@ -20,7 +20,7 @@ namespace Application.Core.Repositories
 
         public int GetLatestTypeID();
 
-        public DataTable ShowAllBooks();
+        public ICollection<Book> ShowAllBooks();
         
     }
 }
