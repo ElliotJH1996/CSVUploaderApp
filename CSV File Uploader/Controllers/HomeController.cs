@@ -24,9 +24,6 @@ namespace CSV_File_Uploader.Controllers
 
         public IActionResult ShowAllBooks() 
         {
-            
-
-
             return View();
         }
        

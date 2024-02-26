@@ -73,5 +73,7 @@
     <Build Include="dbo\StoredProcedures\sp_GetLatestTypeID.sql" />
     <Build Include="dbo\StoredProcedures\sp_GetLatestGenreID.sql" />
     <Build Include="dbo\StoredProcedures\sp_ShowAllBooks.sql" />
+    <Build Include="dbo\Tables\Users.sql" />
+    <Build Include="dbo\StoredProcedures\sp_GetUser.sql" />
   </ItemGroup>
 </Project>
