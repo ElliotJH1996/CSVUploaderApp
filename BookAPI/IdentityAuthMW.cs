@@ -5,12 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System;
 using Application.Core.Services;
-using Microsoft.Extensions.DependencyInjection;
-using Application.Core.Repositories.Users;
 
 namespace CSV_File_Uploader
 {
-	public class IdentityAuthMW
+    public class IdentityAuthMW
 	{
 		private readonly RequestDelegate next;
 		public IdentityAuthMW(RequestDelegate next)

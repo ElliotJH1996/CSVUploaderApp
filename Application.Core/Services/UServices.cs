@@ -1,13 +1,5 @@
-﻿using Application.Core.BookServices;
-using Application.Core.Models;
-using Application.Core.Repositories;
-using Application.Core.Repositories.Users;
+﻿using Application.Core.Repositories.Users;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Core.Services
 {

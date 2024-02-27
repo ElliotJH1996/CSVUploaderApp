@@ -1,32 +1,37 @@
 ﻿using CSV_File_Uploader.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Linq;
 
 
 namespace CSV_File_Uploader.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public IActionResult Index()
         {
-            _logger = logger;
+            var origin = Request.Headers["referer"].ToString();
+            if (!origin.Contains("localhost"))
+            {
+                return Unauthorized();
+            }
+            return View();
         }
-		
-		public IActionResult Index()
+        public IActionResult ShowAllBooks()
         {
-            
+            var origin = Request.Headers["referer"].ToString();
+            if (!origin.Contains("localhost"))
+            {
+                return Unauthorized();
+            }
             return View();
         }
 
-        public IActionResult ShowAllBooks() 
-        {
-            return View();
-        }
-       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

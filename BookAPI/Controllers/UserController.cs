@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Serilog;
-using System.IO;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using Application.Core.Repositories.Users;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Application.Core.Models;
 
 namespace BookAPI.Controllers
@@ -42,7 +38,7 @@ namespace BookAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Upload");
+                _logger.LogError(e, "GetUser");
                 return BadRequest("Error: " + e.Message);
             }
         }

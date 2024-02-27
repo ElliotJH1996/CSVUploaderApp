@@ -2,17 +2,22 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Net.Http.Json;
 using CSV_File_Uploader.Models;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 namespace CSV_File_Uploader.Controllers
 {
-	public class LoginController : Controller
+    public class LoginController : Controller
 	{
+		private readonly ILogger<LoginController> _logger;
+
+		public LoginController(ILogger<LoginController> logger)
+		{
+			_logger = logger;
+		}
 		[HttpGet]
 		public IActionResult Index()
 		{
@@ -54,7 +59,8 @@ namespace CSV_File_Uploader.Controllers
 			}
 			catch (Exception ex)
 			{
-				return View("Login");
+                _logger.LogError(ex, "Login Index POST");
+                return View("Login");
 			}
 
 

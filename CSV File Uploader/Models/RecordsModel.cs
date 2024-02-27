@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace CSV_File_Uploader.Models
+﻿namespace CSV_File_Uploader.Models
 {
     public class RecordsModel
     {
