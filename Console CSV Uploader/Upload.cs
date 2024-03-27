@@ -2,34 +2,26 @@
 using Microsoft.AspNetCore.Http.Internal;
 using Application.Core.BookServices;
 using Application.Core.Repositories;
+using Application.Core.Models;
 
 namespace Console_CSV_Uploader
 {
     public class Upload
     {
+      
         
-        
-        public static void SendFile(string fileName, IBookRepository _br)
+        public static void SendFile(string fileName, IBookRepository _br, BookServices br)
         {
             try
             {
 
                 using (var fs = File.OpenRead(fileName))
                 {
-
-
                     string file = Path.GetFileName(fileName);
                     IFormFile csv = new FormFile(fs, 0, fs.Length, "csv", file);
-                    List<Application.Core.Models.Book> books = CSVParser.FormatCSVtoTable(csv);
-
-                    var addBooks = _br.BulkBookInsert(books);
-
+                    br.InsertParsedBook(csv);
                     Program.uploaded = true;
-
-
                 }
-
-
             }
             catch (Exception e)
             {

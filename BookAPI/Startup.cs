@@ -36,8 +36,8 @@ namespace BookAPI
             services.AddScoped<IDbConnection>(e => new SqlConnection(Configuration.GetConnectionString("Default")));
             services.AddTransient<IBookRepository, BookRepository>();
             services.AddTransient<IUsers, Users>();
-            services.AddScoped<BServices>();
-            services.AddScoped<UServices>();
+            services.AddScoped<BookServices>();
+            services.AddScoped<UserServices>();
 			services.AddCors(options =>
             {
                 options.AddPolicy(name: allowCors,

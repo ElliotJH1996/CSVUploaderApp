@@ -6,7 +6,7 @@ namespace Application.Core.Repositories
     public interface IBookRepository
     {
         public int BulkBookInsert(List<Book> books);
-        public int InsertBook(Book book);
+        public void InsertBook(Book book);
 
         public int InsertType(int refID,string type);
 

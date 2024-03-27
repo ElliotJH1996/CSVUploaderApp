@@ -12,8 +12,8 @@ namespace BookAPI.Controllers
     public class BookController : ControllerBase
     {
         private readonly ILogger<BookController> _log;
-        private readonly BServices _bs;
-        public BookController(ILogger<BookController> log, BServices bs)
+        private readonly BookServices _bs;
+        public BookController(ILogger<BookController> log, BookServices bs)
         {
             _log = log;
             _bs = bs;

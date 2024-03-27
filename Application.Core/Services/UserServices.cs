@@ -3,12 +3,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Core.Services
 {
-    public class UServices
+    public class UserServices
     {
         private readonly IUsers _user;
-        private readonly ILogger<UServices> _logger;
+        private readonly ILogger<UserServices> _logger;
 
-        public UServices(IUsers u, ILogger<UServices> logger)
+        public UserServices(IUsers u, ILogger<UserServices> logger)
         {
             _user = u;
             _logger = logger;

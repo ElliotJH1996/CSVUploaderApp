@@ -6,7 +6,12 @@ namespace Application.Core.BookServices
 {
     public class CSVParser
     {
-        public static List<Book> ParseCSV(IFormFile csv)
+		public static List<Book> FormatCSVtoTable(IFormFile csv)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static List<Book> ParseCSV(IFormFile csv)
         {
             var importedBooks = new List<Book>();
             string regexFormat = "((?<=\")[^\"]*(?=\"(,|$)+)|(?<=,|^)[^,\"]*(?=,|$))";

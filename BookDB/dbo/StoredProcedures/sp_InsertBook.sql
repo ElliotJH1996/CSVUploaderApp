@@ -18,6 +18,8 @@ AS
 BEGIN
 if(@GenreID = -1)
 SET @GenreID = null
+if(@Pages = 0)
+set @Pages = null
 INSERT INTO Books (Title,[ISBN-10],Pages,[Type],Genre,Authors,Price,[Publish Date])
 VALUES (@Title,@ISBN10,@Pages,@TypeID,@GenreID,@Authors,@Price,CONVERT(datetime,@PublishDate,101))
 END

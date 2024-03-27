@@ -15,7 +15,7 @@ namespace CSV_File_Uploader
 		{
 			this.next = next;
 		}
-		public async Task InvokeAsync(HttpContext context, UServices us)
+		public async Task InvokeAsync(HttpContext context, UserServices us)
 		{
 			
 			if (context.Request.Path.StartsWithSegments("/swagger"))
